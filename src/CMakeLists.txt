@@ -91,6 +91,13 @@ target_link_libraries(lastfm
   ${QT_LIBRARIES}
 )
 
+if(APPLE)
+  target_link_libraries(lastfm
+    /System/Library/Frameworks/CoreFoundation.framework
+    /System/Library/Frameworks/SystemConfiguration.framework
+  )
+endif(APPLE)
+
 install(TARGETS lastfm
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib

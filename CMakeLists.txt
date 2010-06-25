@@ -24,7 +24,7 @@ add_subdirectory(src)
 
 # Optionally build the fingerprint library
 option(BUILD_FINGERPRINT "Build the lastfm-fingerprint library" ON)
-pkg_check_modules(LIBFFTW3 fftw3)
+pkg_check_modules(LIBFFTW3 fftw3f)
 pkg_check_modules(LIBSAMPLERATE samplerate)
 
 # Tests
