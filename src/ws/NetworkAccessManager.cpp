@@ -23,7 +23,8 @@
 #include <lastfm/misc.h>
 #include <QCoreApplication>
 #include <QNetworkRequest>
-#ifdef WIN32
+
+#ifdef Q_CC_MSVC
 #include "win/IeSettings.h"
 #include "win/Pac.h"
 #endif
@@ -43,7 +44,7 @@ static struct NetworkAccessManagerInit
 
     NetworkAccessManagerInit()
     {
-    #ifdef WIN32
+    #ifdef Q_CC_MSVC
         IeSettings s;
         // if it's autodetect, we determine the proxy everytime in proxy()
         // we don't really want to do a PAC lookup here, as it times out
@@ -80,7 +81,7 @@ namespace lastfm
 
 lastfm::NetworkAccessManager::NetworkAccessManager( QObject* parent )
                : QNetworkAccessManager( parent )
-            #ifdef WIN32
+            #ifdef Q_CC_MSVC
                , m_pac( 0 )
                , m_monitor( 0 )
             #endif
@@ -98,7 +99,7 @@ lastfm::NetworkAccessManager::NetworkAccessManager( QObject* parent )
 
 lastfm::NetworkAccessManager::~NetworkAccessManager()
 {
-#ifdef WIN32
+#ifdef Q_CC_MSVC
     delete m_pac;
 #endif
 }
@@ -109,7 +110,7 @@ lastfm::NetworkAccessManager::proxy( const QNetworkRequest& request )
 {   
     Q_UNUSED( request );
     
-#ifdef WIN32
+#ifdef Q_CC_MSVC
     IeSettings s;
     if (s.fAutoDetect) 
     {
@@ -133,7 +134,7 @@ lastfm::NetworkAccessManager::createRequest( Operation op, const QNetworkRequest
 
     request.setRawHeader( "User-Agent", lastfm::UserAgent );
     
-#ifdef WIN32
+#ifdef Q_CC_MSVC
     // PAC proxies can vary by domain, so we have to check everytime :(
     QNetworkProxy proxy = this->proxy( request );
     if (proxy.type() != QNetworkProxy::NoProxy)
@@ -149,7 +150,7 @@ lastfm::NetworkAccessManager::onConnectivityChanged( bool up )
 {
     Q_UNUSED( up );
     
-#ifdef WIN32
+#ifdef Q_CC_MSVC
     if (up && m_pac) m_pac->resetFailedState();
 #endif
 }
