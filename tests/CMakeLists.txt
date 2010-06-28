@@ -11,6 +11,8 @@ set(MOC_HEADERS
 
 qt4_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/../src)
+
 add_executable(tests
   ${SOURCES}
   ${MOC_SOURCES}
