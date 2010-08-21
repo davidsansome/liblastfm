@@ -5,7 +5,6 @@ find_package(Qt4 REQUIRED QtCore QtGui QtNetwork QtXml QtSql QtTest)
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Release")
   add_definitions(-DNDEBUG)
-  add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif(${CMAKE_BUILD_TYPE} MATCHES "Release")
 
 # Set up definitions and paths

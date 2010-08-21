@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.6)
 include_directories(${LIBFFTW3_INCLUDE_DIRS})
 include_directories(${LIBSAMPLERATE_INCLUDE_DIRS})
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/..)
+
 link_directories(${LIBFFTW3_LIBRARY_DIRS})
 link_directories(${LIBSAMPLERATE_LIBRARY_DIRS})
 
