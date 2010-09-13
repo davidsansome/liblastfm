@@ -109,6 +109,10 @@ namespace lastfm
             UnknownError
         };
 
+        // davidsansome: hack so we don't have to deal with catching exceptions
+        // across .dll boundaries on mingw.
+        LASTFM_DLLEXPORT extern Error last_parse_error;
+
         /** the map needs a method entry, as per http://last.fm/api */
         LASTFM_DLLEXPORT QNetworkReply* get( QMap<QString, QString> );
         /** generates api sig, includes api key, and posts, don't add the api
