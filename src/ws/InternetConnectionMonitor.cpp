@@ -26,7 +26,7 @@
 QList<QPointer<lastfm::InternetConnectionMonitor> > monitors;
 #endif
 
-#ifdef Q_CC_MSVC
+#ifdef USE_NATIVE_PROXY
 
 // WsAccessManager needs special init (on Windows), and it needs to be done
 // early, so be careful about moving this
@@ -83,7 +83,7 @@ lastfm::InternetConnectionMonitor::InternetConnectionMonitor( QObject *parent )
     QPointer<InternetConnectionMonitor> p = this;
     monitors += p;
 #endif
-#ifdef Q_CC_MSVC
+#ifdef USE_NATIVE_PROXY
     m_ndisEventsProxy = new NdisEventsProxy(this);
     m_ndisEventsProxy->registerForNdisEvents();
 #endif

@@ -24,7 +24,7 @@
 #include <QCoreApplication>
 #include <QNetworkRequest>
 
-#ifdef Q_CC_MSVC
+#ifdef USE_NATIVE_PROXY
 #include "win/IeSettings.h"
 #include "win/Pac.h"
 #endif
@@ -44,14 +44,14 @@ static struct NetworkAccessManagerInit
 
     NetworkAccessManagerInit()
     {
-    #ifdef Q_CC_MSVC
+    #ifdef USE_NATIVE_PROXY
         IeSettings s;
         // if it's autodetect, we determine the proxy everytime in proxy()
         // we don't really want to do a PAC lookup here, as it times out
         // at two seconds, so that hangs startup
         if (!s.fAutoDetect && s.lpszProxy)
         {
-            QUrl url( QString::fromUtf16(s.lpszProxy) );
+            QUrl url( QString::fromUtf16( reinterpret_cast<const ushort*>( s.lpszProxy ) ) );
             QNetworkProxy proxy( QNetworkProxy::HttpProxy );
             proxy.setHostName( url.host() );
             proxy.setPort( url.port() );
@@ -81,7 +81,7 @@ namespace lastfm
 
 lastfm::NetworkAccessManager::NetworkAccessManager( QObject* parent )
                : QNetworkAccessManager( parent )
-            #ifdef Q_CC_MSVC
+            #ifdef USE_NATIVE_PROXY
                , m_pac( 0 )
                , m_monitor( 0 )
             #endif
@@ -99,7 +99,7 @@ lastfm::NetworkAccessManager::NetworkAccessManager( QObject* parent )
 
 lastfm::NetworkAccessManager::~NetworkAccessManager()
 {
-#ifdef Q_CC_MSVC
+#ifdef USE_NATIVE_PROXY
     delete m_pac;
 #endif
 }
@@ -107,12 +107,12 @@ lastfm::NetworkAccessManager::~NetworkAccessManager()
 
 QNetworkProxy
 lastfm::NetworkAccessManager::proxy( const QNetworkRequest& request )
-{   
+{
     Q_UNUSED( request );
-    
-#ifdef Q_CC_MSVC
+
+#ifdef USE_NATIVE_PROXY
     IeSettings s;
-    if (s.fAutoDetect) 
+    if (s.fAutoDetect)
     {
         if (!m_pac) {
             m_pac = new Pac;
@@ -133,8 +133,8 @@ lastfm::NetworkAccessManager::createRequest( Operation op, const QNetworkRequest
     QNetworkRequest request = request_;
 
     request.setRawHeader( "User-Agent", lastfm::UserAgent );
-    
-#ifdef Q_CC_MSVC
+
+#ifdef USE_NATIVE_PROXY
     // PAC proxies can vary by domain, so we have to check everytime :(
     QNetworkProxy proxy = this->proxy( request );
     if (proxy.type() != QNetworkProxy::NoProxy)
@@ -149,8 +149,8 @@ void
 lastfm::NetworkAccessManager::onConnectivityChanged( bool up )
 {
     Q_UNUSED( up );
-    
-#ifdef Q_CC_MSVC
+
+#ifdef USE_NATIVE_PROXY
     if (up && m_pac) m_pac->resetFailedState();
 #endif
 }
