@@ -20,13 +20,27 @@
 #ifndef LASTFM_FINGERPRINT_H
 #define LASTFM_FINGERPRINT_H
 
+#include <QtGlobal>
+
+#ifdef Q_WS_WIN
+    #ifdef LASTFM_FINGERPRINT_OHAI_QMAKE
+        #define LASTFM_FINGERPRINT_DLLEXPORT __declspec(dllexport)
+    #else
+        #define LASTFM_FINGERPRINT_DLLEXPORT __declspec(dllimport)
+    #endif
+#elif __GNUC__ >= 4
+    #define LASTFM_FINGERPRINT_DLLEXPORT __attribute__ ((visibility("default")))
+#else
+    #define LASTFM_FINGERPRINT_DLLEXPORT
+#endif
+
 #include <lastfm/FingerprintId>
 #include <lastfm/Track>
 
 
 namespace lastfm
 {
-    class LASTFM_DLLEXPORT Fingerprint
+    class LASTFM_FINGERPRINT_DLLEXPORT Fingerprint
     {
         lastfm::Track m_track;
         QByteArray m_data;
