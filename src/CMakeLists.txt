@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
 
-add_definitions(-DLASTFM_OHAI_QMAKE)
-
 # Macro to copy and rename headers
 macro(copy_header from to)
   configure_file(
@@ -90,6 +88,8 @@ add_library(lastfm SHARED
 target_link_libraries(lastfm
   ${QT_LIBRARIES}
 )
+
+set_target_properties(lastfm PROPERTIES COMPILE_FLAGS "-DLASTFM_OHAI_QMAKE"  ) 
 
 if(APPLE)
   target_link_libraries(lastfm

@@ -28,3 +28,4 @@ target_link_libraries(lastfm_fingerprint
   lastfm
 )
 
+set_target_properties(lastfm_fingerprint PROPERTIES COMPILE_FLAGS "-DLASTFM_FINGERPRINT_OHAI_QMAKE"  ) 

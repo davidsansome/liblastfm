@@ -30,7 +30,7 @@
 
 #include <QtGlobal>
 
-#ifdef Q_CC_MSVC
+#ifdef Q_WS_WIN
     #ifdef LASTFM_OHAI_QMAKE
         #define LASTFM_DLLEXPORT __declspec(dllexport)
     #else
