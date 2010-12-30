@@ -51,7 +51,8 @@ ScrobblerHandshake::request()
         "&api_key=" + lastfm::ws::ApiKey +
         "&sk=" + lastfm::ws::SessionKey;
 
-    QUrl url = "http://post.audioscrobbler.com:80/" + query_string;
+    QUrl url;
+    url.setEncodedUrl(("http://post.audioscrobbler.com:80/" + query_string).toAscii());
     rp = lastfm::nam()->get( QNetworkRequest(url) );
     connect( rp, SIGNAL(finished()), SLOT(onRequestFinished()) );
 
