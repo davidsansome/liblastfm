@@ -89,7 +89,7 @@ namespace lastfm
     class Playlist;
     class User;
     class RadioStation;
-    class Scrobble;
+    struct Scrobble;
     class Tag;
     class Track;
     class XmlQuery;
