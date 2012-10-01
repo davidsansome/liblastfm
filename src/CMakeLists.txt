@@ -86,7 +86,11 @@ add_library(lastfm SHARED
 )
 
 target_link_libraries(lastfm
-  ${QT_LIBRARIES}
+  ${QT_QTCORE_LIBRARY}
+  ${QT_QTGUI_LIBRARY}
+  ${QT_QTNETWORK_LIBRARY}
+  ${QT_QTSQL_LIBRARY}
+  ${QT_QTXML_LIBRARY}
 )
 
 set_target_properties(lastfm PROPERTIES COMPILE_FLAGS "-DLASTFM_OHAI_QMAKE"  ) 
