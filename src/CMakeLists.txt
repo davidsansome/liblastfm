@@ -97,8 +97,8 @@ set_target_properties(lastfm PROPERTIES COMPILE_FLAGS "-DLASTFM_OHAI_QMAKE"  )
 
 if(APPLE)
   target_link_libraries(lastfm
-    /System/Library/Frameworks/CoreFoundation.framework
-    /System/Library/Frameworks/SystemConfiguration.framework
+    "-framework CoreFoundation"
+    "-framework SystemConfiguration"
   )
 endif(APPLE)
 
